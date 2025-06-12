@@ -14,7 +14,14 @@ function App() {
 
 
     if (!session) {
-      return <Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} providers={['github']} />;
+      return <Auth 
+                supabaseClient={supabase} 
+                appearance={{ theme: ThemeSupa }}
+                providers={['github']} 
+                onlyThirdPartyProviders     // hide email/password panel
+                view="sign_in"              // force sign-in view
+                showLinks={false}           // hide “Sign up” + “Forgot password”
+              />;
     }
 
     return (
