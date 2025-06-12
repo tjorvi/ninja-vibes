@@ -5,6 +5,14 @@ import { supabase } from './supabase';
 import { useEffect, useState } from 'react';
 import type { Session } from '@supabase/supabase-js';
 
+function Logout() {
+  return (
+    <button onClick={() => supabase.auth.signOut()}>
+      Log out
+    </button>
+  );
+}
+
 function App() {
     const [session, setSession] = useState<Session|null>(null);
     
@@ -21,7 +29,7 @@ function App() {
                 onlyThirdPartyProviders     // hide email/password panel
                 view="sign_in"              // force sign-in view
                 showLinks={false}           // hide “Sign up” + “Forgot password”
-                redirectTo={`https://tjorvi.github.io/ninja-vibes/`}
+                redirectTo={`${window.location.origin}/ninja-vibes/`}
               />;
     }
 
@@ -29,6 +37,7 @@ function App() {
     <>
       <div>
         welcome {session.user.email} san!
+        <Logout />
       </div>
     </>
   )
