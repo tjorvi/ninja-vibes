@@ -1,10 +1,26 @@
 import './App.css'
+import { Auth } from '@supabase/auth-ui-react';
+import { ThemeSupa } from '@supabase/auth-ui-shared';
+import { supabase } from './supabase';
+import { useEffect, useState } from 'react';
+import type { Session } from '@supabase/supabase-js';
 
 function App() {
-  return (
+    const [session, setSession] = useState<Session|null>(null);
+    
+    useEffect(() => {
+      supabase.auth.onAuthStateChange((_e, s) => setSession(s))
+    }, []);
+
+
+    if (!session) {
+      return <Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} providers={['github']} />;
+    }
+
+    return (
     <>
       <div>
-        work in progress
+        welcome {session.user.email} san!
       </div>
     </>
   )
