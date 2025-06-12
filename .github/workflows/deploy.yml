@@ -1,0 +1,37 @@
+# .github/workflows/deploy.yml
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]     # run on every push/merge to main
+  workflow_dispatch:      # allow manual runs
+
+permissions:
+  contents: read          # checkout
+  pages: write            # publish
+  id-token: write         # OIDC for Pages
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run build         # Vite output → dist/
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist             # folder to publish
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - id: deploy
+        uses: actions/deploy-pages@v4
