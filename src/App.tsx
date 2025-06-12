@@ -21,6 +21,7 @@ function App() {
                 onlyThirdPartyProviders     // hide email/password panel
                 view="sign_in"              // force sign-in view
                 showLinks={false}           // hide “Sign up” + “Forgot password”
+                redirectTo={`https://tjorvi.github.io/ninja-vibes/`}
               />;
     }
 
